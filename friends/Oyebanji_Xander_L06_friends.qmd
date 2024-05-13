@@ -44,7 +44,7 @@ The link for the current repository is this:
 # Model Background
   The models that were used for this prediction problem were a null model and a naive bayes model. These models were chosen because of their quick processing time. Tokenization and TF IDF were used in the recipe for the models in order to allow for NLP to work. Models were trained on folded data, as well as the whole training dataset so that they could be tested on the testing dataset.
   
-## Results
+## Training Results
 ```{r}
 #| label: loading packages
 #| echo: false
@@ -58,22 +58,41 @@ library(here)
 load(here("friends/figures/training_metrics.rda"))
 training_metrics
 ```
+  Looking at the models trained on folded data (not predicting testing data), it can be seen that the null model has an average accuracy of 0.106 while the naive bayes model has an average accuracy of 0.111. Because the accuracy is higher on the folded training data, it is expected that the naive bayes model will perform slightly better on the actual testing data. However, in terms of brier class, the null model has a much lower value of 0.450 compared to 0.877 of the naive bayes model. By this metric, it is suggested that the null model will actually perform better than the naive bayes model when they are used on the testing data. Finally, in terms of ROC AUC, the naive bayes model performed better, with a ROC AUC of 0.530 compared to the null model's 0.500. Higher ROC AUC values are better, so this indicates that the naive bayes model will perform better on the testing data.
+  Despite these conflicting metrics, 2 of the 3 indicate that the naive bayes model will perform better, so that seems like the more likely option.
 ```{r}
 #| label: conformation matrix null
 #| echo: false
 load(here("friends/figures/conf_mat_null.rda"))
 conf_mat_null
 ```
+  Looking at the conformation matrix of the predictions the null model made on the training data, it seems that it resorted to only choosing two of the 10 categories, 3 or 6. Because of the guesses being split pretty evenly between the two and there being a similar number of episodes in each season in the data, very few of these predictions were actually correct.
 ```{r}
 #| label: conformation matrix naive bayes
 #| echo: false
 load(here("friends/figures/nb_conf_mat.rda"))
 nb_conf_mat
 ```
+  Compared to the null model, the naive bayes model had much better distributed predictions, though most of the predictions were focused on the 6th season. Most of the guesses of season 6 were wrong, but the most populated category of 6th season guesses was a true positive, indicating some level of actual predictions going on. This is weaker in some rows than others, for example, in some rows the true positive answer is one of the less guessed categories, but it is true in a number of categories. Overall, this model shows better promise than the null model, but is still incredibly weak.
+  According to the metrics and a look at the conformation matrices of the null model and naive bayes model on the folded training data, it seems like the naive bayes model will perform slightly better on the testing data than the null model.
+  
+## Testing Results
 ```{r}
 #| label: conformation matrix null
 #| echo: false
 load(here("friends/figures/final_accuracy.rda"))
 final_accuracy
+```
+```{r}
+#| label: conformation matrix null final
+#| echo: false
+load(here("friends/figures/final_null_conf_mat.rda"))
+final_null_conf_mat
+```
+```{r}
+#| label: conformation matrix naive bayes final
+#| echo: false
+load(here("friends/figures/final_nb_conf_mat.rda"))
+final_nb_conf_mat
 ```
 
