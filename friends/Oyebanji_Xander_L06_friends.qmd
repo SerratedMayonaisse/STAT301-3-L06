@@ -1,0 +1,79 @@
+---
+title: "Friends Dialogue Bonus"
+subtitle: "Predicting the Season of Friends from the Dialogue"
+author: "Xander Oyebanji"
+pagetitle: "L06 Xander Oyebanji"
+date: today
+
+format:
+  html:
+    toc: true
+    toc-depth: 4
+    toc-location: left
+    embed-resources: true
+    code-fold: false
+    link-external-newwindow: true
+
+execute:
+  warning: false
+  
+from: markdown+emoji
+reference-location: margin
+citation-location: margin
+---
+
+
+::: {.callout-tip icon=false}
+
+## Github Repo Link
+THIS LAB WAS DONE OVER 2 REPOSITORIES BECAUSE OF TECHNICAL ISSUES!
+The link for the original repository that could not be salvaged was:
+[https://github.com/stat301-3-2024-spring/L06-nlp-SerratedMayonaisse.git](https://github.com/stat301-3-2024-spring/L06-nlp-SerratedMayonaisse.git)
+
+The link for the current repository is this:
+[https://github.com/SerratedMayonaisse/STAT301-3-L06.git](https://github.com/SerratedMayonaisse/STAT301-3-L06.git)
+
+:::
+
+## Goal
+  The goal of this lab is to predict what episode of the TV show `Friends` a certain bit of dialogue is from using predictive modeling and natural language processing (NLP).
+  
+# Data 
+  The dataset for this lab contains dialogue from episodes of `Friends`, along with the season, episode, scene, and character that said the line. This dataset is quite large, with over 67,000 observations. For the most part, missingness was not an issue, with the only variable with any missingness issues being the character that said the line. This is not a problem because it will not be used in the prediction problem.
+  
+# Model Background
+  The models that were used for this prediction problem were a null model and a naive bayes model. These models were chosen because of their quick processing time. Tokenization and TF IDF were used in the recipe for the models in order to allow for NLP to work. Models were trained on folded data, as well as the whole training dataset so that they could be tested on the testing dataset.
+  
+## Results
+```{r}
+#| label: loading packages
+#| echo: false
+#| results: false
+library(tidyverse)
+library(here)
+```
+```{r}
+#| label: conformation matrix null
+#| echo: false
+load(here("friends/figures/training_metrics.rda"))
+training_metrics
+```
+```{r}
+#| label: conformation matrix null
+#| echo: false
+load(here("friends/figures/conf_mat_null.rda"))
+conf_mat_null
+```
+```{r}
+#| label: conformation matrix naive bayes
+#| echo: false
+load(here("friends/figures/nb_conf_mat.rda"))
+nb_conf_mat
+```
+```{r}
+#| label: conformation matrix null
+#| echo: false
+load(here("friends/figures/final_accuracy.rda"))
+final_accuracy
+```
+
