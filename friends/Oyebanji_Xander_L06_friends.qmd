@@ -51,9 +51,12 @@ The link for the current repository is this:
 #| results: false
 library(tidyverse)
 library(here)
+library(tidymodels)
+#handling common conflicts
+tidymodels_prefer()
 ```
 ```{r}
-#| label: conformation matrix null
+#| label: metrics from trained models
 #| echo: false
 load(here("friends/figures/training_metrics.rda"))
 training_metrics
@@ -66,7 +69,7 @@ training_metrics
 load(here("friends/figures/conf_mat_null.rda"))
 conf_mat_null
 ```
-  Looking at the conformation matrix of the predictions the null model made on the training data, it seems that it resorted to only choosing two of the 10 categories, 3 or 6. Because of the guesses being split pretty evenly between the two and there being a similar number of episodes in each season in the data, very few of these predictions were actually correct.
+  Looking at the conformation matrix of the predictions the null model made on the training data, it seems that it resorted to only choosing two of the 10 categories, 3 or 6. This plot indicates that the models were likely switching between 3 or 6 every time and sticking to one, given that's how null models work. Because of the guesses being split pretty evenly between the two and there being a similar number of episodes in each season in the data, very few of these predictions were actually correct.
 ```{r}
 #| label: conformation matrix naive bayes
 #| echo: false
@@ -78,21 +81,25 @@ nb_conf_mat
   
 ## Testing Results
 ```{r}
-#| label: conformation matrix null
+#| label: final accuracies
 #| echo: false
 load(here("friends/figures/final_accuracy.rda"))
-final_accuracy
+final_null_accuracy
 ```
+  After running the models on the testing data, it appears that, according to their accuracies, the naive bayes model performed slightly better than the null model with an accuracy of 0.109 compared to the null model's accuracy of 0.108. This lines up with what was expected. Neither of these accuracies are high enough to be considered acceptable for use.
 ```{r}
 #| label: conformation matrix null final
 #| echo: false
 load(here("friends/figures/final_null_conf_mat.rda"))
 final_null_conf_mat
 ```
+Looking at what the null model did in the conformation matrix, it appears that like with the training data, it only guessed one value the whole time (which makes sense since it's a null model). Due to there being 10 seasons with similar numbers of episodes with similar numbers of dialogue, the observations are pretty evenly split into each of the 10 seasons. This means that the accuracy that was achieved, a little over 10 percent, is about what could be expected. Even with a further developed recipe, this model shows little promise and will likely always get around the same accuracy of about 10% due to it sticking to one value.
 ```{r}
 #| label: conformation matrix naive bayes final
 #| echo: false
 load(here("friends/figures/final_nb_conf_mat.rda"))
 final_nb_conf_mat
 ```
+  The naive bayes model once again mainly stuck to season 6, with a few guesses elsewhere. Due to being able to make predictions outside of just one value, it makes sense that it performed better than the null model. Everything about this conformation matrix is in line with what the previous conformation matrix for the naive bayes model would indicate.
+  In conclusion, the naive bayes model performed slightly better in terms of accuracy and appeared to be making better types of guesses than the null model, which only predicted one value, indicating it was the better model. However, neither of these models are suitable prediction models. If this lab were to be done again, a different model type that is not a baseline model type would be more suitable due to higher complexity allowing for more accurate predictions and the ability to tune them to find optimal hyperparameters. Additionally, combining different types of model types in an ensemble model would likely further improve the ability to predict the model's predictive capabilities. Most importantly, a more complex recipe is needed in order to make accurate predictions. Currently, the recipe is quite bare and could be benefited from additional steps and tuning.
 
