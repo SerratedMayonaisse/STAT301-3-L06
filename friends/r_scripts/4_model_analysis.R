@@ -38,6 +38,11 @@ nb_conf_mat <- conf_mat_resampled(nb_res, tidy = FALSE) |>
 nb_accuracy <- accuracy(nb_pred, truth = season, .pred_class) |> 
   mutate(model = "naive bayes")
 
+final_nb_conf_mat <- nb_pred |> 
+  conf_mat(truth = season, estimate = .pred_class) |> 
+  autoplot(type = "heatmap")
+final_nb_conf_mat
+
 # Assessing null trained model ----
 null_metrics <- collect_metrics(null_res)
 training_metrics <- null_metrics |> mutate(
@@ -66,8 +71,14 @@ conf_mat_null <- conf_mat_resampled(null_res, tidy = FALSE) |>
   autoplot(type = "heatmap")
 conf_mat_null
 
+final_null_conf_mat <- null_pred |> 
+  conf_mat(truth = season, estimate = .pred_class) |> 
+  autoplot(type = "heatmap")
+
 # saving stuff
 save(final_null_accuracy, file = here("friends/figures/final_accuracy.rda"))
 save(conf_mat_null, file = here("friends/figures/conf_mat_null.rda"))
 save(training_metrics, file = here("friends/figures/training_metrics.rda"))
 save(nb_conf_mat, file = here("friends/figures/nb_conf_mat.rda"))
+save(final_null_conf_mat, file = here("friends/figures/final_null_conf_mat.rda"))
+save(final_nb_conf_mat, file = here("friends/figures/final_nb_conf_mat.rda"))

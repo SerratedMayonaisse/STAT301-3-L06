@@ -1,0 +1,10 @@
+## Overview
+To predict the season a piece of dialogue from the show `Friends` is using natural language processing in predictive modeling.
+
+## Table of Contents
+- `data_splits`: the split and folded data
+- `figures`: any visuals (plots and tables) used in the memo
+- QMD/HTML file: memo giving a rundown of the lab
+- `r_scripts`: all the R code used
+- `recipes`: basic recipe using NLP
+- `results`: fitted models
